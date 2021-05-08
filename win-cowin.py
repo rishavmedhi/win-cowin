@@ -2,7 +2,6 @@ import requests
 import json
 import os
 import sched, time, datetime, pytz
-#os.system('say "Slots found"')
 
 s = sched.scheduler(time.time, time.sleep)
 districtIds = [265, 294]
@@ -17,7 +16,7 @@ def requestUtil(url):
     jsonResponse = response.json()
     centerSlotFinder(jsonResponse)
   else:
-    print("API FAILED :: status"+response.status_code);
+    print("API FAILED :: status"+str(response.status_code));
 
 def centerSlotFinder(apiResponse):
   centersList = apiResponse['centers']
@@ -29,7 +28,7 @@ def centerSlotFinder(apiResponse):
           if session['available_capacity']>0 and session['min_age_limit']==18:
             ## alert here that slots are available
             os.system('say "Slots found"')
-            print("SLOTS FOUND::GO AND BOOK NOW")
+            print("SLOTS FOUND::GO AND BOOK NOW "+datetime.datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S"))
     else:
       print("No slots for this district "+datetime.datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S"))
   else:
@@ -42,15 +41,10 @@ def main(sc):
   formatTime = datetime.datetime.now(IST).strftime("%d-%m-%Y")
   for dId in districtIds:
     requestUtil(generateURL(dId, formatTime))
-  # s.enter(60,1, test, (s,))
+  s.enter(60,1, main, (sc,))
 
 def utc_to_local(utc_dt):
     return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
-
-def test(sc):
-  print('testing')
-  s.enter(10,1, test, (sc,))
-
 
 s.enter(60,1, main, (s,))
 s.run()
