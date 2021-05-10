@@ -28,7 +28,7 @@ def centerSlotFinder(apiResponse):
           if session['available_capacity']>0 and session['min_age_limit']==18:
             ## alert here that slots are available
             os.system('say "Slots found"')
-            print(center["name"]+" --- "+session["date"])
+            print(center["name"]+" --- "+session["date"]+ " --- " + center["district_name"] + " --- " + str(center["pincode"]))
             print("SLOTS FOUND::GO AND BOOK NOW "+datetime.datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S"))
     else:
       print("No slots for this district "+datetime.datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S"))
