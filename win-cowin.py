@@ -25,7 +25,7 @@ def centerSlotFinder(apiResponse):
       centerSessions = center['sessions']
       if len(center['sessions'])>0:
         for session in centerSessions:
-          if session['available_capacity']>0 and session['min_age_limit']==18:
+          if session['min_age_limit']==18 and session['available_capacity']>0 and session['available_capacity_dose1']>0:
             ## alert here that slots are available
             os.system('say "Slots found"')
             print(center["name"]+" --- "+session["date"]+ " --- " + center["district_name"] + " --- " + str(center["pincode"]))
